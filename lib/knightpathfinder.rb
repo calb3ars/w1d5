@@ -22,12 +22,13 @@ class KnightPathFinder < PolyTreeNode
     possible_moves
   end
 
-  attr_accessor :visited_positions
+  attr_accessor :visited_positions, :start, :node
 
-  def initialize(start)
-    @start = start
+  def initialize(start_pos)
+    @start = start_pos
     @end_pos = nil
     @visited_positions = [start]
+    @node = PolyTreeNode.new(start)
     @move_tree = build_move_tree
   end
 
@@ -38,7 +39,7 @@ class KnightPathFinder < PolyTreeNode
   end
 
   def build_move_tree
-    queue = [PolyTreeNode.new(start)]
+    queue = [node]
     until queue.empty?
       current_node = queue.shift
 
@@ -52,7 +53,20 @@ class KnightPathFinder < PolyTreeNode
   end
 
   def find_path(end_pos)
+    end_node = node.dfs(end_pos)
+    trace_back_path(end_node)
+  end
 
+  def trace_back_path(node)
+    path = []
+    par_pos = node.parent.value
+    until par_pos == start
+      path << par_pos
+      node = node.parent
+      par_pos = node.parent.value
+    end
+
+    path.reverse
   end
 
 end
