@@ -3,14 +3,14 @@ require 'byebug'
 class KnightPathFinder < PolyTreeNode
 
   DELTAS = [
-    [-1,1],
-    [-1,0],
-    [-1,-1],
-    [0,1],
-    [0,-1],
-    [1,1],
-    [1,0],
-    [1,-1]
+    [-2,-1],
+    [2,-1],
+    [-2,1],
+    [2,1],
+    [-1,-2],
+    [-1,2],
+    [1,-2],
+    [1,2],
   ]
 
   def self.valid_moves(pos)
@@ -58,14 +58,20 @@ class KnightPathFinder < PolyTreeNode
   end
 
   def trace_back_path(node)
-    path = []
+    path = [node.value]
     par_pos = node.parent.value
-    until par_pos == start
-      path << par_pos
+
+    while node
+      path << node.value unless node.value == path.last
       node = node.parent
-      par_pos = node.parent.value
     end
 
+    # until par_pos == start
+    #   path << par_pos
+    #   node = node.parent
+    #   par_pos = node.parent.value
+    # end
+    # path << par_pos
     path.reverse
   end
 
