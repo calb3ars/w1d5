@@ -1,6 +1,6 @@
 require_relative '00_tree_node'
 require 'byebug'
-class KnightPathFinder < PolyTreeNode
+class KnightPathFinder
 
   DELTAS = [
     [-2,-1],
